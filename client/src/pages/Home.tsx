@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
-import { Search, X, ChevronDown, ChevronUp, MoreVertical, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
+import { Search, X, ChevronDown, ChevronUp, MoreVertical, ArrowUpDown, ArrowUp, ArrowDown, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -17,6 +17,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { cn } from '@/lib/utils';
+import { useLocation } from 'wouter';
 
 interface Publication {
   id: number;
@@ -125,6 +126,14 @@ export default function Home() {
   const [bestSellerSet, setBestSellerSet] = useState<Set<string> | null>(null);
   const [bestSellerLoading, setBestSellerLoading] = useState(false);
   const [bestSellerError, setBestSellerError] = useState<string | null>(null);
+
+  const [, setLocation] = useLocation();
+
+  // Logout handler
+  const handleLogout = () => {
+    localStorage.removeItem('ascendAuth');
+    setLocation('/login');
+  };
 
   const asideRef = useRef<HTMLElement>(null);
   const counterRef = useRef<HTMLDivElement>(null);
@@ -744,13 +753,11 @@ export default function Home() {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => {
-                  localStorage.removeItem('ascendAuth');
-                  window.location.href = '/login';
-                }}
-                className="text-sm font-medium"
+                onClick={handleLogout}
+                className="text-sm font-medium flex items-center gap-2"
               >
-                Log out
+                <LogOut className="h-4 w-4" />
+                Log Out
               </Button>
             </div>
           </div>

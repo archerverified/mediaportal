@@ -1,12 +1,21 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Lock } from 'lucide-react';
+import { useLocation } from 'wouter';
 
 export default function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [, setLocation] = useLocation();
+
+  // Check if already logged in on mount
+  useEffect(() => {
+    if (localStorage.getItem('ascendAuth') === 'true') {
+      setLocation('/');
+    }
+  }, [setLocation]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,8 +31,8 @@ export default function Login() {
     if (password === correctPassword) {
       // Store authentication in localStorage
       localStorage.setItem('ascendAuth', 'true');
-      // Redirect to home page
-      window.location.href = '/';
+      // Redirect to home page using wouter
+      setLocation('/');
     } else {
       setError('Invalid password. Please try again.');
       setPassword('');
