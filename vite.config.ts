@@ -22,6 +22,8 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    // Ensure files are written relative to project root
+    assetsDir: "assets",
   },
   server: {
     port: 3000,
