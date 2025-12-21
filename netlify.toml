@@ -1,0 +1,51 @@
+# Netlify Configuration for 1st Impression Media Portal
+
+[build]
+  # Build command
+  command = "pnpm build"
+  
+  # Publish directory
+  publish = "dist/public"
+  
+  # Use pnpm for package management
+  [build.environment]
+    NPM_FLAGS = "--legacy-peer-deps"
+
+# Redirect all traffic to index.html for client-side routing
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Security headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-XSS-Protection = "1; mode=block"
+
+# Cache control for assets
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Cache control for images
+[[headers]]
+  for = "/logos/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/logos_svg/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Prevent bots from indexing non-production environments
+[context.deploy-preview]
+  [context.deploy-preview.headers]
+    [[context.deploy-preview.headers.values]]
+      X-Robots-Tag = "noindex"
+
