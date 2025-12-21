@@ -725,7 +725,7 @@ export default function Home() {
               <div className="flex items-start gap-8 mb-6">
                 <div className="flex flex-col items-start gap-4">
                   <img
-                    src="/images/1st-impression-media-list.png"
+                    src="/images/1-logo.png"
                     alt="1st Impression Media List"
                     className="h-20"
                   />
